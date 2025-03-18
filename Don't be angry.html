@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Comparison: You vs Elon Musk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        select, input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        #comparison {
+            margin-top: 30px;
+        }
+
+        .square {
+            height: 100px;
+            display: inline-block;
+            margin: 10px;
+            border: 2px solid #333;
+        }
+
+        #elonSquare {
+            background-color: #FF5722;
+            width: 100px;
+        }
+
+        #yourSquare {
+            background-color: #4CAF50;
+            min-width: 50px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Salary Comparison: You vs Elon Musk</h1>
+
+        <div class="input-container">
+            <label for="salaryType">Select Salary Type:</label>
+            <select id="salaryType">
+                <option value="monthly">Monthly</option>
+                <option value="weekly">Weekly</option>
+                <option value="daily">Daily</option>
+            </select>
+            <br><br>
+            <label for="yourSalary">Enter Your Salary (in USD):</label>
+            <input type="number" id="yourSalary" placeholder="Your Salary" />
+        </div>
+
+        <button class="button" onclick="compareSalary()">Compare</button>
+
+        <div id="comparison">
+            <div id="elonSquare" class="square"></div>
+            <div id="yourSquare" class="square"></div>
+        </div>
+
+        <div id="result"></div>
+        <div class="note">
+            <p>* Elon Musk's daily salary is estimated based on his net worth of approximately $240 billion.</p>
+        </div>
+    </div>
+
+    <script>
+        const elonMuskNetWorth = 240 * 1e9; // Elon Musk's net worth in USD
+        const elonMuskDailySalary = elonMuskNetWorth / 365 / 24; // Estimate daily salary
+
+        function compareSalary() {
+            const yourSalary = parseFloat(document.getElementById('yourSalary').value);
+            const salaryType = document.getElementById('salaryType').value;
+
+            if (!yourSalary || yourSalary <= 0) {
+                alert("Please enter a valid salary.");
+                return;
+            }
+
+            let yourDailySalary;
+            switch (salaryType) {
+                case "monthly":
+                    yourDailySalary = yourSalary / 30;
+                    break;
+                case "weekly":
+                    yourDailySalary = yourSalary / 7;
+                    break;
+                case "daily":
+                    yourDailySalary = yourSalary;
+                    break;
+            }
+
+            const ratio = yourDailySalary / elonMuskDailySalary;
+            const minWidth = 50;
+            const maxWidth = 500;
+            const yourSquareWidth = Math.max(minWidth, Math.min(maxWidth * ratio, maxWidth));
+            const elonSquareWidth = 100;
+
+            document.getElementById('yourSquare').style.width = yourSquareWidth + 'px';
+            document.getElementById('elonSquare').style.width = elonSquareWidth + 'px';
+
+            document.getElementById('result').innerHTML = `Your daily salary compared to Elon Musk's daily salary:`;
+            document.getElementById('result').innerHTML += `<br>Elon Musk's daily salary: $${elonMuskDailySalary.toFixed(2)}`;
+            document.getElementById('result').innerHTML += `<br>Your daily salary: $${yourDailySalary.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
